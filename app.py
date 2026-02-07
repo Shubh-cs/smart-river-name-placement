@@ -8,8 +8,8 @@ MVP Logic:
 """
 
 import streamlit as st
-from PIL import Image
-import numpy as np
+from PIL import Image 
+from PIL import ImageDraw, ImageFont
 
 def suggest_label_position(image):
     """
@@ -37,9 +37,25 @@ uploaded = st.file_uploader(
 if uploaded:
     image = Image.open(uploaded)
     st.image(image, caption="Uploaded River Map", width=700)
+    river_name = st.text_input("Enter river name", value="River Name")
 
     if st.button("Place River Name"):
+        draw = ImageDraw.Draw(image)
+
         x, y = suggest_label_position(image)
+
+
+        # Font (fallback-safe)
+        try:
+            font = ImageFont.truetype("arial.ttf", 32)
+        except:
+            font = ImageFont.load_default()
+
+        # Offset applied to simulate padding from river boundaries
+        draw.text((x - 60, y - 10), river_name, fill="blue", font=font)
+
+
+        st.image(image, caption="River Name Placed (MVP Demo)", width=700)
 
         st.success("✅ River name placed safely inside the river (MVP demo)")
         st.caption(f"Suggested label position: (x={x}, y={y})")
