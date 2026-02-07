@@ -56,7 +56,7 @@ if uploaded:
     image = Image.open(uploaded).convert("RGB")
     st.image(image, caption="Uploaded River Map", width=700)
 
-    river_name = st.text_input("Enter river name", value="Ganga")
+    river_name = st.text_input("Enter river name", value="here..")
 
     if st.button("Place River Name"):
         draw = ImageDraw.Draw(image)
