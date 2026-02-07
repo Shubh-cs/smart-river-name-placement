@@ -9,6 +9,20 @@ MVP Logic:
 
 import streamlit as st
 from PIL import Image
+import numpy as np
+
+def suggest_label_position(image):
+    """
+    Simplified heuristic-based 'AI' for river label placement.
+    Uses image dimensions as a proxy for stable placement.
+    """
+    width, height = image.size
+
+    # Assume central region is safest for MVP
+    x = width // 2
+    y = height // 2
+
+    return x, y
 
 st.set_page_config(page_title="Smart River Name Placement", layout="centered")
 
@@ -25,5 +39,8 @@ if uploaded:
     st.image(image, caption="Uploaded River Map", width=700)
 
     if st.button("Place River Name"):
-        st.info("Analyzing river geometry...")
+        x, y = suggest_label_position(image)
+
         st.success("✅ River name placed safely inside the river (MVP demo)")
+        st.caption(f"Suggested label position: (x={x}, y={y})")
+
